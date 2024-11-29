@@ -72,6 +72,9 @@
 # Include zsh
     programs.zsh.enable = true;
 
+# Experimental Features
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
 # List packages installed in system profile. To search, run:
 # $ nix search wget
     environment.systemPackages = with pkgs; [
@@ -79,6 +82,7 @@
         htop
         git
         gh
+        neovim
         google-chrome
         tmux
         gnome.gnome-tweaks
@@ -112,6 +116,9 @@
         openssl
         openssl_3_3
         pkg-config
+        mediawriter
+        bullshit
+        stm32cubemx
         ];
 
 # Some programs need SUID wrappers, can be configured further or are
