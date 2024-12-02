@@ -10,7 +10,8 @@
 {
   imports = [
     # include NixOS-WSL modules
-    <nixos-wsl/modules>
+    ./hardware-configuration.nix
+    ./framework.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -25,10 +26,6 @@
   };
 
   networking.hostName = "taurine";
-
-  # Setup WSL
-  wsl.enable = true;
-  wsl.defaultUser = "nixos";
 
   environment.systemPackages = with pkgs; [
         wget
