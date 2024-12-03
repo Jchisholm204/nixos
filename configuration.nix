@@ -4,7 +4,10 @@
     imports =
         [ # Include the results of the hardware scan.
         ./hardware-configuration.nix
+        inputs.nix-ros-overlay.nixosModules.default
         ];
+    # Try ros2???
+    services.ros2.enable = true;
 
     # Bootloader.
     boot.loader.systemd-boot.enable = true;
@@ -74,7 +77,7 @@
 # Experimental Features
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
+    # nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
 
 # List packages installed in system profile. To search, run:
 # $ nix search wget
@@ -99,6 +102,7 @@
         usbutils
 
         # Dev Tools
+        vscode
         git
         gh
         neovim
@@ -112,8 +116,10 @@
         glibc
         glibc_multi
         # ROS Dev Tools
-        colcon
-        rosPackages.humble.ros-core
+        inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".humble.ros-core
+        # inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".colcon
+        # inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".colcon
+        # rosPackages.humble.ros-core
         # rosPackages.humble.ros-perception
 
         # Terminal Applications

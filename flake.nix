@@ -12,14 +12,6 @@
             specialArgs = { inherit inputs; };
             modules = [
                 ./configuration.nix
-                {
-                    nixpkgs.overlays = [ nix-ros-overlay.overlays.default ];
-                    environment.systemPackages = with pkgs; [
-                        colcon  # ROS build tool
-                        rosPackages.humble.ros-core  # Base ROS 2 Humble installation
-                        # Add more ROS 2 Humble packages as needed
-                    ];
-                }
             ];
         };
     };
