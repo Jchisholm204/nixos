@@ -74,6 +74,8 @@
 # Experimental Features
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
+
 # List packages installed in system profile. To search, run:
 # $ nix search wget
     environment.systemPackages = with pkgs; [
@@ -109,6 +111,10 @@
         libstdcxx5
         glibc
         glibc_multi
+        # ROS Dev Tools
+        colcon
+        rosPackages.humble.ros-core
+        # rosPackages.humble.ros-perception
 
         # Terminal Applications
         alacritty
