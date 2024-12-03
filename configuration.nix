@@ -10,7 +10,7 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
-    networking.hostName = "nixos-framework"; # Define your hostname.
+    networking.hostName = "taurine"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 # Enable networking
@@ -92,16 +92,8 @@
         zsh
         zsh-autosuggestions
         starship
-        libgcc
-        libstdcxx5
-        glibc
-        gcc
-        libclang
-        clang-tools
-        rust-analyzer
         gnumake
         cmake
-        gcc-arm-embedded
         fprintd # Fingerprint Reader
         unzip
         nix-ld
@@ -119,19 +111,46 @@
         mediawriter
         bullshit
         stm32cubemx
+# language servers, etc.
+        lua-language-server
+        libclang
+        clang-tools
+        clang
+        ccls
+        gcc
+        gcc-arm-embedded
+        libgcc
+        libstdcxx5
+        glibc
+        rust-analyzer
+        python3
+        nodejs_22
+        rustup
+        openssl
+        openssl_3_3
+        pkg-config
+        nil # nix LSP
+# Neovim
+        vimPlugins.nvim-lspconfig
+        vimPlugins.nvim-treesitter.withAllGrammars
+        vimPlugins.nvim-treesitter-context # nvim-treesitter-context
+        vimPlugins.nvim-treesitter-textobjects # https://github.com/nvim-treesitter/nvim-treesitter-textobjects/
+        vimPlugins.nvim-ts-context-commentstring # https://github.com/joosepalviste/nvim-ts-context-commentstring/
+
+
         ];
 
-# Some programs need SUID wrappers, can be configured further or are
-# started in user sessions.
-# programs.mtr.enable = true;
-# programs.gnupg.agent = {
-#   enable = true;
-#   enableSSHSupport = true;
-# };
 
     programs.tmux = {
         enable = true;
         clock24 = true;
+    };
+
+# Setup Neovim
+    programs.neovim = {
+        enable = true;
+        defaultEditor = true;
+        viAlias = true;
     };
 
 # List services that you want to enable:
