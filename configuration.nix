@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
     imports =
@@ -6,42 +6,42 @@
         ./hardware-configuration.nix
         ];
 
-# Bootloader.
+    # Bootloader.
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
     networking.hostName = "taurine"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-# Enable networking
+    # Enable networking
     networking.networkmanager.enable = true;
 
-# Set your time zone.
+    # Set your time zone.
     time.timeZone = "America/Toronto";
 
-# Select internationalisation properties.
+    # Select internationalisation properties.
     i18n.defaultLocale = "en_CA.UTF-8";
 
-# Enable the X11 windowing system.
+    # Enable the X11 windowing system.
     services.xserver.enable = true;
 
-# Enable the GNOME Desktop Environment.
+    # Enable the GNOME Desktop Environment.
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
 
 # Enable the Hypr Desktop Environment.
 # programs.hyprland.enable = true;
 
-# Configure keymap in X11
+    # Configure keymap in X11
     services.xserver.xkb = {
         layout = "us";
         variant = "";
     };
 
-# Enable CUPS to print documents.
+    # Enable CUPS to print documents.
     services.printing.enable = true;
 
-# Enable sound with pipewire.
+    # Enable sound with pipewire.
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
@@ -59,18 +59,17 @@
         isNormalUser = true;
         description = "Jacob Chisholm";
         extraGroups = [ "networkmanager" "wheel" ];
-        packages = with pkgs; [
-#  thunderbird
-        ];
+        packages = with pkgs; [ ];
         shell = pkgs.zsh;
     };
-    users.defaultUserShell = pkgs.zsh;
 
-# Allow unfree packages
+    # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
 
-# Include zsh
+    # Enable ZSH to be used as default shell
     programs.zsh.enable = true;
+    # Set the default user shell
+    users.defaultUserShell = pkgs.zsh;
 
 # Experimental Features
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -78,50 +77,57 @@
 # List packages installed in system profile. To search, run:
 # $ nix search wget
     environment.systemPackages = with pkgs; [
+        # Install Nix Flakes as packages
+        # inputs.nixvim-flake.packages."${pkgs.system}".nixvim
+        # inputs.nixvim-flake
+
+        # System Tools
         wget
         htop
+        unzip
+        nix-ld
+        syncthing
+        usbutils
+
+        # Dev Tools
         git
         gh
         neovim
-        google-chrome
         tmux
-        gnome.gnome-tweaks
-        alacritty # Terminal
-        fastfetch
-        teams-for-linux # MS Teams
-        zsh
-        zsh-autosuggestions
-        starship
         gnumake
         cmake
-        fprintd # Fingerprint Reader
-        unzip
-        nix-ld
-        tmux
-        syncthing
-        parsec-bin
-        obsidian
-        python3
-        slack
-        nodejs_22
-        rustup
-        openssl
-        openssl_3_3
-        pkg-config
-        mediawriter
-        bullshit
-        stm32cubemx
-# language servers, etc.
-        lua-language-server
-        libclang
-        clang-tools
-        clang
-        ccls
         gcc
         gcc-arm-embedded
         libgcc
         libstdcxx5
         glibc
+        glibc_multi
+
+        # Required Software
+        gnome.gnome-tweaks
+
+        # Terminal Applications
+        alacritty
+        fastfetch
+        zsh
+        zsh-autosuggestions
+        starship
+
+        # System Services
+        fprintd # Fingerprint Reader
+        python3
+        nodejs_22
+        rustup
+        openssl
+        openssl_3_3
+        pkg-config
+
+        # language servers, libs, etc.
+        lua-language-server
+        libclang
+        clang-tools
+        clang
+        ccls
         rust-analyzer
         python3
         nodejs_22
@@ -129,44 +135,32 @@
         openssl
         openssl_3_3
         pkg-config
-        nil # nix LSP
-# Neovim
-        vimPlugins.nvim-lspconfig
-        vimPlugins.nvim-treesitter.withAllGrammars
-        vimPlugins.nvim-treesitter-context # nvim-treesitter-context
-        vimPlugins.nvim-treesitter-textobjects # https://github.com/nvim-treesitter/nvim-treesitter-textobjects/
-        vimPlugins.nvim-ts-context-commentstring # https://github.com/joosepalviste/nvim-ts-context-commentstring/
-
-
+        # nil # nix LSP
         ];
 
 
+    # Enable and Setup TMUX (Terminal Multiplexer)
     programs.tmux = {
         enable = true;
         clock24 = true;
     };
 
-# Setup Neovim
-    programs.neovim = {
-        enable = true;
-        defaultEditor = true;
-        viAlias = true;
-    };
-
-# List services that you want to enable:
+    # Fingerprint Service (For Framework)
     services.fprintd.enable = true;
+    # Framework BIOS Update
     services.fwupd.enable = true;
-# Enable the OpenSSH daemon.
+
+    # Enable the OpenSSH daemon.
     services.openssh.enable = true;
+
+    # Enable/Setup syncthing (For my notes)
     services.syncthing = {
         enable = true;
         openDefaultPorts = true;
+        user = "jacob";
+        dataDir = "/home/jacob";
+        configDir = "/home/jacob/.config/syncthing";
     };
-# Open ports in the firewall.
-# networking.firewall.allowedTCPPorts = [ ... ];
-# networking.firewall.allowedUDPPorts = [ ... ];
-# Or disable the firewall altogether.
-# networking.firewall.enable = false;
 
 # This value determines the NixOS release from which the default
 # settings for stateful data, like file locations and database versions

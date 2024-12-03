@@ -2,8 +2,11 @@
     description = "NixOS Taurine Flake";
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-        # helix editor, use the master branch
-        helix.url = "github:helix-editor/helix/master";
+        # nixvim-flake.url = "github:pete3n/nixvim-flake/main";
+        home-manager = {
+            url = "github:nix-community/home-manager/release-24.11";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs = { self, nixpkgs, ... }@inputs: {
@@ -12,6 +15,13 @@
             specialArgs = { inherit inputs; };
             modules = [
                 ./configuration.nix
+
+                home-manager.nixosModules.home-manager
+                {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.users.jacob = import ./home.nix;
+                }
             ];
         };
     };
