@@ -81,6 +81,13 @@
         # inputs.nixvim-flake.packages."${pkgs.system}".nixvim
         # inputs.nixvim-flake
 
+        # Desktop Programs
+        parsec-bin
+        google-chrome
+        obsidian
+        slack
+        teams-for-linux
+
         # System Tools
         wget
         htop
@@ -102,9 +109,6 @@
         libstdcxx5
         glibc
         glibc_multi
-
-        # Required Software
-        gnome.gnome-tweaks
 
         # Terminal Applications
         alacritty
