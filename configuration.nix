@@ -1,11 +1,18 @@
 { config, pkgs, inputs, ... }:
 
 {
-    imports =
-        [ # Include the results of the hardware scan.
+    imports = [ # Include the results of the hardware scan.
             ./hardware-configuration.nix
+            inputs.nix-ros-overlay.nixosModule
         ];
 
+    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
+    
+    services.ros2 = {
+        enable = true;
+        distro = "humble";
+        systemPackages = p: [ pkgs.rosPackages.humble.ros-core ];
+    };
 
     # Bootloader.
     boot.loader.systemd-boot.enable = true;
@@ -117,6 +124,11 @@ nixpkgs.config.permittedInsecurePackages = [
         libstdcxx5
         glibc
         glibc_multi
+        # ROS Dev Tools
+        colcon
+        rosPackages.humble.ros-core
+        rosPackages.humble.ament-cmake-core
+        rosPackages.humble.geometry-msgs
 
         # Terminal Applications
         alacritty
@@ -149,7 +161,12 @@ nixpkgs.config.permittedInsecurePackages = [
         pkg-config
         # nil # nix LSP
         ];
-
+  # Set environment variables needed for ROS 2 to work
+  environment.variables = {
+    AMENT_PREFIX_PATH = "${pkgs.rosPackages.humble.ros-core}/share/ament_index";
+    ROS_PACKAGE_PATH = "${pkgs.rosPackages.humble.ros-core}/share";
+    CMAKE_PREFIX_PATH = "${pkgs.rosPackages.humble.ros-core}/share";
+  };
 
     # Enable and Setup TMUX (Terminal Multiplexer)
     programs.tmux = {
