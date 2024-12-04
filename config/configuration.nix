@@ -1,12 +1,12 @@
+# Basic General Configuration for NixOS
 { config, pkgs, inputs, ... }:
 
 {
+    # Import other configuration files
     imports = [ # Include the results of the hardware scan.
             ./hardware-configuration.nix
             ./users.nix
         ];
-
-    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
     
 
     # Bootloader.
@@ -16,12 +16,14 @@
     # Enable networking
     networking.networkmanager.enable = true;
 
-    networking.hostName = "taurine"; # Define your hostname.
+    # System Hostname
+    # Must match the hostname used in flake.nix
+    networking.hostName = "taurine";
 
     # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
 
-    # Experimental Features
+    # Experimental Features (that have been in development for 10+ years..)
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
@@ -32,6 +34,7 @@
 # this value at the release version of the first install of this system.
 # Before changing this value read the documentation for this option
 # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+    # Latest = 24.11
     system.stateVersion = "24.05"; # Did you read the comment?
 
 }

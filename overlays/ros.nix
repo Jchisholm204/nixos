@@ -1,15 +1,21 @@
 { config, pkgs, inputs, ... }:
 {
-    imports = [ # Include the results of the hardware scan.
+    # Import the ROS overlay
+    imports = [
         inputs.nix-ros-overlay.nixosModules.default
     ];
 
-    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
-
+    # Enable the ROS2 Service
     services.ros2 = {
         enable = true;
         distro = "humble";
-        systemPackages = p: [ pkgs.rosPackages.humble.ros-core ];
+        systemPackages = p: [
+            # List packages here that need to be installed with ROS
+            # ROS packages take the form pkgs.rosPackages.<distro>.<pkg-name>
+            # See lopsided98/nix-ros-overlay/distros/humble
+            # Every subfolder inside of the distro folder is a package name
+            pkgs.rosPackages.humble.ros-core
+        ];
     };
 
     # Set environment variables needed for ROS 2 to work

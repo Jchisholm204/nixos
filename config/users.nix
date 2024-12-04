@@ -1,3 +1,4 @@
+# Users and User configuration
 { config, pkgs, inputs, ... }:
 {
 
@@ -11,6 +12,7 @@
     users.users.jacob = {
         isNormalUser = true;
         description = "Jacob Chisholm";
+        # This is me.. I want to have sudo privs
         extraGroups = [ "networkmanager" "wheel" ];
         packages = with pkgs; [ ];
         shell = pkgs.zsh;

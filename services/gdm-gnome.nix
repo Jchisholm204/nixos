@@ -1,3 +1,4 @@
+# Setup the Gnome Graphical Display Manager
 { config, pkgs, inputs, ... }:
 {
     # Enable the X11 windowing system.

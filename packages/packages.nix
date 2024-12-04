@@ -18,6 +18,8 @@
         obsidian
         slack
         teams-for-linux
+        discord
+        saleae-logic-2
 
         # System Tools
         wget
@@ -41,8 +43,8 @@
         libstdcxx5
         glibc
         glibc_multi
-        # ROS Dev Tools
-        colcon
+        # ROS Dev Tools (MUST ADD TO ROS OVERLAY)
+        colcon # Required to be here
         rosPackages.humble.ros-core
         rosPackages.humble.ament-cmake-core
         rosPackages.humble.geometry-msgs
@@ -76,6 +78,6 @@
         openssl
         openssl_3_3
         pkg-config
-        # nil # nix LSP
+        nil # nix LSP
         ];
 }

@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
-
+    # Import the other services
     imports = [
         ./gdm-gnome.nix
         ./syncthing.nix
