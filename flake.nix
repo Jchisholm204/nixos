@@ -11,8 +11,12 @@
         nixosConfigurations.taurine = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = { inherit inputs; };
+            # Import the modules used to define the system
             modules = [
-                ./configuration.nix
+                ./config/configuration.nix
+                ./packages/packages.nix
+                ./services/services.nix
+                ./overlays/overlays.nix
             ];
         };
     };
