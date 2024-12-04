@@ -7,12 +7,17 @@
     };
 
     outputs = { self, nixpkgs, ... }@inputs: {
-        nixosConfigurations.taurine = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = { inherit inputs; };
-            modules = [
-                ./configuration.nix
-                inputs.nix-ros-overlay.nixosModules.default
+        nixosConfigurations.taurine = {
+            nixpkgs.lib.nixosSystem = {
+                system = "x86_64-linux";
+                specialArgs = { inherit inputs; };
+                modules = [
+                    ./configuration.nix
+                ];
+            };
+            # Use the overlay to add ROS 2 packages
+            nixpkgs.overlays = [
+                inputs.nix-ros-overlay.overlay
             ];
         };
     };
