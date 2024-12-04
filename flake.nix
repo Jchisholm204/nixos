@@ -14,6 +14,8 @@
             modules = [
                 ./config/configuration.nix
                 ./packages.nix
+                ./required.nix
+                ./services.nix
             ];
         };
     };
