@@ -12,6 +12,7 @@
             specialArgs = { inherit inputs; };
             modules = [
                 ./configuration.nix
+                inputs.nix-ros-overlay.nixosModules.default
             ];
         };
     };
