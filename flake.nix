@@ -13,6 +13,7 @@
             specialArgs = { inherit inputs; };
             modules = [
                 ./config/configuration.nix
+                ./packages.nix
             ];
         };
     };
