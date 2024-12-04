@@ -1,15 +1,17 @@
 { config, pkgs, inputs, ... }:
 
 {
-    imports =
-        [ # Include the results of the hardware scan.
+    imports = [ # Include the results of the hardware scan.
             ./hardware-configuration.nix
-            inputs.nix-ros-overlay.nixosModules.default
+            inputs.nix-ros-overlay.nixosModule
         ];
 
+    nixpkgs.overlays = [ inputs.nix-ros-overlay.overlays.default ];
+    
     services.ros2 = {
         enable = true;
         distro = "humble";
+        systemPackages = p: [ pkgs.rosPackages.humble.ros-core ];
     };
 
     # Bootloader.
@@ -125,34 +127,8 @@ nixpkgs.config.permittedInsecurePackages = [
         # ROS Dev Tools
         colcon
         rosPackages.humble.ros-core
-        rosPackages.humble.ament-package
-        rosPackages.humble.ros2cli
-        rosPackages.humble.rclcpp
-        rosPackages.humble.rclpy
-        rosPackages.humble.rosbag2
-        rosPackages.humble.diagnostics
-        rosPackages.humble.common-interfaces
-        rosPackages.humble.sensor-msgs
-        # rosPackages.humble.navigation2
-        rosPackages.humble.robot-state-publisher
-        rosPackages.humble.tf2
-        rosPackages.humble.rviz2
-        # rosPackages.humble.gazebo-ros-pkgs
-        # rosPackages.humble.ros-core
-        # rosPackages.humble.ros2cli
-        # rosPackages.humble.rosbag2
-        # rosPackages.humble.as2-cli
-        # rosPackages.humble.as2-core
-        # rosPackages.humble.ament-package
-        # rosPackages.humble.rclcpp
-        # rosPackages.humble.rclpy
-        # rosPackages.humble.common-interfaces
-        # rosPackages.humble
-        # inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".humble.ros-core
-        # inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".colcon
-        # inputs.nix-ros-overlay.legacyPackages."${pkgs.system}".colcon
-        # rosPackages.humble.ros-core
-        # rosPackages.humble.ros-perception
+        rosPackages.humble.ament-cmake-core
+        rosPackages.humble.geometry-msgs
 
         # Terminal Applications
         alacritty
@@ -185,7 +161,12 @@ nixpkgs.config.permittedInsecurePackages = [
         pkg-config
         # nil # nix LSP
         ];
-
+  # Set environment variables needed for ROS 2 to work
+  environment.variables = {
+    AMENT_PREFIX_PATH = "${pkgs.rosPackages.humble.ros-core}/share/ament_index";
+    ROS_PACKAGE_PATH = "${pkgs.rosPackages.humble.ros-core}/share";
+    CMAKE_PREFIX_PATH = "${pkgs.rosPackages.humble.ros-core}/share";
+  };
 
     # Enable and Setup TMUX (Terminal Multiplexer)
     programs.tmux = {

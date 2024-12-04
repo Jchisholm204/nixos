@@ -4,6 +4,7 @@
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
         # nixvim-flake.url = "github:pete3n/nixvim-flake/main";
         nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay";
+        nixpkgs.follows = "nix-ros-overlay/nixpkgs";  # IMPORTANT!!!
     };
 
     outputs = { self, nixpkgs, ... }@inputs: {
@@ -12,7 +13,6 @@
             specialArgs = { inherit inputs; };
             modules = [
                 ./configuration.nix
-                inputs.nix-ros-overlay.nixosModules.default
             ];
         };
     };
