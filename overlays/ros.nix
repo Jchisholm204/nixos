@@ -15,6 +15,7 @@
             # See lopsided98/nix-ros-overlay/distros/humble
             # Every subfolder inside of the distro folder is a package name
             pkgs.rosPackages.humble.ros-core
+            pkgs.rosPackages.humble.turtlesim
         ];
     };
 
