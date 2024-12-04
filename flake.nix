@@ -15,6 +15,7 @@
                 ./config/configuration.nix
                 ./packages/packages.nix
                 ./services/services.nix
+                ./overlays/overlays.nix
             ];
         };
     };
