@@ -20,7 +20,9 @@
         teams-for-linux
         discord
         saleae-logic-2
-
+        spotify
+        libreoffice
+        
         # System Tools
         wget
         htop
@@ -43,6 +45,9 @@
         libstdcxx5
         glibc
         glibc_multi
+        openmpi
+        mpich
+        eigen
         # ROS Dev Tools (MUST ADD TO ROS OVERLAY)
         colcon # Required to be here
         rosPackages.humble.ros-core
@@ -68,6 +73,7 @@
         # language servers, libs, etc.
         lua-language-server
         libclang
+        llvmPackages.libclang
         clang-tools
         clang
         ccls
