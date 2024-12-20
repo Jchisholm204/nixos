@@ -1,10 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
 
-    # Import other configuration files
-    imports = [ # Include the results of the hardware scan.
-            ./nix-quartus/web13.nix
-        ];
+
 
     nixpkgs.config.permittedInsecurePackages = [
         "freeimage-unstable-2021-11-01"
@@ -16,6 +13,8 @@
         # Install Nix Flakes as packages
         # inputs.nixvim-flake.packages."${pkgs.system}".nixvim
         # inputs.nixvim-flake
+        
+        (import ./nix-quartus/web13.nix)
 
         # Desktop Programs
         parsec-bin
